@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const NameTitle = ({ name, joinDate }) => {
+const NameTitle = ({ name, joinDate, textColor }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.date}>Joined {joinDate}</Text>
+      <Text style={[styles.name, { color: textColor }]}>{name}</Text>
+      <Text style={[styles.joinDate, { color: textColor }]}>Joined {joinDate}</Text>
     </View>
   );
 };
@@ -13,14 +13,16 @@ const NameTitle = ({ name, joinDate }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    marginVertical: 20,
   },
   name: {
     fontSize: 24,
+    fontFamily: 'Poppins-Bold',
     fontWeight: 'bold',
   },
-  date: {
-    fontSize: 16,
-    color: 'gray',
+  joinDate: {
+    fontSize: 15,
+    fontFamily: 'Poppins-Regular',
   },
 });
 

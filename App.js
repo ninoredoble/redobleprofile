@@ -7,33 +7,39 @@ import { NavigationContainer } from '@react-navigation/native';
 import Profile from './src/pages/Profile';
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);  // Track if fonts are loaded
-  const systemTheme = useColorScheme();  // Detect system theme
-  const [isDarkMode, setIsDarkMode] = useState(systemTheme === 'dark');  // Track manual toggle
+  // State to track if custom fonts are loaded
+  const [fontsLoaded, setFontsLoaded] = useState(false);  
+  // Get the current system color scheme (light/dark)
+  const systemTheme = useColorScheme();  
+  // State to track if dark mode is enabled
+  const [isDarkMode, setIsDarkMode] = useState(systemTheme === 'dark');  
 
+  // Function to load custom fonts asynchronously
   const loadFonts = async () => {
     await Font.loadAsync({
       'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
       'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
     });
-    setFontsLoaded(true);
+    setFontsLoaded(true);  // Update state when fonts are loaded
   };
 
+  // Load fonts when the app starts
   useEffect(() => {
-    loadFonts();  // Load fonts on app start
+    loadFonts();
   }, []);
 
-  // Listen for system theme changes and apply if no manual toggle
+  // Effect to listen for changes in the system theme
   useEffect(() => {
     setIsDarkMode(systemTheme === 'dark');
-  }, [systemTheme]);
+  }, [systemTheme]);  // Re-run this effect when systemTheme changes
 
+  // Function to toggle between light and dark mode
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
   };
 
+  // If fonts are not loaded yet, display a loading spinner
   if (!fontsLoaded) {
-    // Show loading spinner until fonts are loaded
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
@@ -41,6 +47,7 @@ export default function App() {
     );
   }
 
+  // Render the main application interface once fonts are loaded
   return (
     <SafeAreaProvider>
       <NavigationContainer>

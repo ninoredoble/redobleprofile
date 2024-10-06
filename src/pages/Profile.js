@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import Avatar from '../components/Avatar';
 import NameTitle from '../components/NameTitle';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -21,6 +21,7 @@ const darkTheme = {
   buttonText: '#FFF',
 };
 
+// Profile component
 const Profile = ({ isDarkMode, toggleTheme }) => {
   const [notifications, setNotifications] = React.useState(true);
 
@@ -28,34 +29,37 @@ const Profile = ({ isDarkMode, toggleTheme }) => {
   const notificationScale = React.useRef(new Animated.Value(1)).current;
   const darkModeScale = React.useRef(new Animated.Value(1)).current;
 
+  // Determine the current theme based on dark mode state
   const currentTheme = isDarkMode ? darkTheme : lightTheme;
 
+  // Toggle notifications with animation
   const toggleNotifications = () => {
     Animated.timing(notificationScale, {
       toValue: 1.2, // Scale up
-      duration: 200,
-      useNativeDriver: true,
+      duration: 200, // Animation duration
+      useNativeDriver: true, // Use native driver for better performance
     }).start(() => {
-      setNotifications(!notifications);
+      setNotifications(!notifications); // Toggle notification state
       Animated.spring(notificationScale, {
-        toValue: 1, // Scale back
-        friction: 3,
-        useNativeDriver: true,
+        toValue: 1, // Scale back to original size
+        friction: 3, // Damping effect
+        useNativeDriver: true, // Use native driver for better performance
       }).start();
     });
   };
 
+  // Toggle dark mode with animation
   const toggleDarkMode = () => {
     Animated.timing(darkModeScale, {
       toValue: 1.2, // Scale up
-      duration: 200,
-      useNativeDriver: true,
+      duration: 200, // Animation duration
+      useNativeDriver: true, // Use native driver for better performance
     }).start(() => {
-      toggleTheme();
+      toggleTheme(); // Toggle the theme
       Animated.spring(darkModeScale, {
-        toValue: 1, // Scale back
-        friction: 3,
-        useNativeDriver: true,
+        toValue: 1, // Scale back to original size
+        friction: 3, // Damping effect
+        useNativeDriver: true, // Use native driver for better performance
       }).start();
     });
   };
@@ -65,14 +69,13 @@ const Profile = ({ isDarkMode, toggleTheme }) => {
       <View style={styles.profileContainer}>
         <Avatar />
         <View style={styles.nameContainer}>
+          {/* Display user name and join date */}
           <Text style={[styles.firstName, { color: currentTheme.text }]}>G. Niño Emmanuel G.</Text>
           <Text style={[styles.surname, { color: currentTheme.text }]}>Redoble</Text>
-          {/* Moved join date under the names */}
-          <Text style={[styles.joinDate, { color: currentTheme.text }]}>1 year ago</Text>
+          <Text style={[styles.joinDate, { color: currentTheme.text }]}>Joined 3 year ago</Text>
         </View>
       </View>
 
-      {/* Profile Section Header */}
       <Text style={[styles.sectionHeader, { color: currentTheme.text }]}>Profile</Text>
       <View style={styles.divider} />
 
@@ -80,11 +83,10 @@ const Profile = ({ isDarkMode, toggleTheme }) => {
       <View style={[styles.card, { backgroundColor: currentTheme.card }]}>
         <Text style={[styles.label, { color: currentTheme.text }]}>Manage Users</Text>
         <TouchableOpacity>
-          <Icon name="users" size={24} color={currentTheme.text} />
+          <Icon name="users" size={26} color={currentTheme.text} />
         </TouchableOpacity>
       </View>
 
-      {/* Settings Section Header */}
       <Text style={[styles.sectionHeader, { color: currentTheme.text }]}>Settings</Text>
       <View style={styles.divider} />
 
@@ -93,7 +95,7 @@ const Profile = ({ isDarkMode, toggleTheme }) => {
         <Text style={[styles.label, { color: currentTheme.text }]}>Notifications</Text>
         <TouchableOpacity onPress={toggleNotifications}>
           <Animated.View style={{ transform: [{ scale: notificationScale }] }}>
-            <Icon name={notifications ? "bell" : "bell-slash"} size={24} color={currentTheme.text} />
+            <Icon name={notifications ? "bell" : "bell-slash"} size={26} color={currentTheme.text} />
           </Animated.View>
         </TouchableOpacity>
       </View>
@@ -107,7 +109,7 @@ const Profile = ({ isDarkMode, toggleTheme }) => {
           <Animated.View style={{ transform: [{ scale: darkModeScale }] }}>
             <Icon 
               name={isDarkMode ? "sun-o" : "moon-o"} 
-              size={24} 
+              size={26} 
               color={isDarkMode ? '#FFFF8F' : currentTheme.text} 
             />
           </Animated.View>
@@ -122,79 +124,80 @@ const Profile = ({ isDarkMode, toggleTheme }) => {
   );
 };
 
+// Styles for the Profile component
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 20,
+    flex: 1, // Fill the screen
+    alignItems: 'center', // Center content horizontally
+    padding: 20, // Padding around the content
   },
   profileContainer: {
-    marginTop: '30%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5, // Space below the profile section
+    marginTop: '30%', // Top margin for positioning
+    flexDirection: 'row', // Arrange avatar and name in a row
+    alignItems: 'center', // Center vertically
+    marginBottom: 10, // Space below the profile section
   },
   nameContainer: {
-    marginLeft: 15, // Space between the avatar and the name
-    justifyContent: 'center', // Center the names vertically
+    marginLeft: 15, // Space between avatar and name
   },
   sectionHeader: {
-    fontSize: 20,
-    fontFamily: 'Poppins-Bold',
-    marginVertical: 10,
-    marginLeft: 50,
-    marginBottom: -8,
-    textAlign: 'left',
-    width: '100%',
+    fontSize: 22, // Font size for section headers
+    fontFamily: 'Poppins-Bold', // Bold font for headers
+    marginVertical: 10, // Vertical margin for spacing
+    marginLeft: 50, // Left margin for positioning
+    marginBottom: -5, // Minor adjustment for spacing
+    textAlign: 'left', // Left align the text
+    width: '100%', // Full width for the header
   },
   divider: {
-    width: '90%',
-    height: 1,
-    backgroundColor: '#E0E0E0',
-    marginVertical: 5,
+    width: '90%', // Width of the divider line
+    height: 1, // Height of the divider
+    backgroundColor: '#E0E0E0', // Color of the divider
+    marginVertical: 5, // Vertical spacing for the divider
   },
   card: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '90%',
-    padding: 15,
-    marginVertical: 10,
-    borderRadius: 12,
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    flexDirection: 'row', // Arrange card content in a row
+    justifyContent: 'space-between', // Space between items
+    alignItems: 'center', // Center content vertically
+    width: '90%', // Width of the card
+    padding: 15, // Padding inside the card
+    marginVertical: 10, // Vertical spacing for cards
+    borderRadius: 12, // Rounded corners
+    elevation: 4, // Elevation for shadow on Android
+    shadowColor: '#000', // Shadow color for iOS
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 0.2, // Shadow opacity
+    shadowRadius: 3, // Blur radius for shadow
   },
   label: {
-    fontSize: 18,
-    fontFamily: 'Poppins-Regular',
+    fontSize: 18, // Font size for labels
+    fontFamily: 'Poppins-Regular', // Regular font for labels
   },
   button: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    elevation: 2,
+    marginTop: 20, // Top margin for button spacing
+    paddingVertical: 15, // Vertical padding for button
+    paddingHorizontal: 30, // Horizontal padding for button
+    borderRadius: 8, // Rounded corners for the button
+    elevation: 2, // Elevation for shadow on Android
   },
   buttonText: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
+    fontSize: 16, // Font size for button text
+    fontFamily: 'Poppins-Regular', // Regular font for button text
   },
   firstName: {
-    fontSize: 22,
-    fontFamily: 'Poppins-Regular',
-    marginBottom: -10,
+    fontSize: 22, // Font size for the first name
+    fontFamily: 'Poppins-Regular', // Regular font for first name
+    marginBottom: -10, // Minor adjustment for spacing
   },
   surname: {
-    fontSize: 35,
-    fontFamily: 'Poppins-Bold',
+    fontSize: 36, // Font size for the surname
+    fontFamily: 'Poppins-Bold', // Bold font for surname
   },
   joinDate: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
+    fontSize: 16, // Font size for join date
+    fontFamily: 'Poppins-Regular', // Regular font for join date
   },
 });
 
+// Export the Profile component for use in other parts of the application
 export default Profile;

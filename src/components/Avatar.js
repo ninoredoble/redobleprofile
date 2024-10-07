@@ -3,54 +3,51 @@ import { Image, StyleSheet, View, TouchableOpacity, Animated, ActivityIndicator 
 
 // Avatar component that animates on press
 const Avatar = () => {
-  // Animated value to control the scaling of the avatar
   const [scale] = useState(new Animated.Value(1));
-  const [loading, setLoading] = useState(true); // State to manage image loading
+  const [loading, setLoading] = useState(true);
 
-  // Handle the press in event to scale up the avatar
   const handlePressIn = () => {
     Animated.spring(scale, {
-      toValue: 1.1, // Scale up by 10%
-      friction: 3,  // Damping effect
-      useNativeDriver: true, // Use native driver for better performance
+      toValue: 1.1,
+      friction: 3,
+      useNativeDriver: true,
     }).start();
   };
 
-  // Handle the press out event to scale back to original size
   const handlePressOut = () => {
     Animated.spring(scale, {
-      toValue: 1, // Scale back to original size
-      friction: 3, // Damping effect
-      useNativeDriver: true, // Use native driver for better performance
+      toValue: 1,
+      friction: 3,
+      useNativeDriver: true,
     }).start();
   };
 
-  // Handle image load event
   const handleImageLoad = () => {
-    setLoading(false); // Set loading to false when image is loaded
+    setLoading(false);
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        activeOpacity={0.8} // Reduce opacity on press
-        onPressIn={handlePressIn} // Trigger scaling up on press in
-        onPressOut={handlePressOut} // Trigger scaling down on press out
-        accessible={true} // Make this button accessible
-        accessibilityLabel="User Avatar" // Accessibility label
+        activeOpacity={0.8}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        accessible={true}
+        accessibilityLabel="User Avatar"
+        accessibilityHint="Double tap to view profile"
       >
-        <Animated.View style={{ transform: [{ scale }] }}>
+        <Animated.View style={[styles.avatarContainer, { transform: [{ scale }] }]}>
           {loading && (
             <View style={styles.loader}>
               <ActivityIndicator size="small" color="#000" />
             </View>
           )}
-          {/* Avatar image with scaling animation */}
           <Image
             style={styles.avatar}
-            source={require('../../assets/avatar.png')} // Replace with your avatar image path
-            onLoad={handleImageLoad} // Trigger load handler
-            onLoadStart={() => setLoading(true)} // Show loader on image load start
+            source={require('../../assets/avatar.gif')}
+            onLoad={handleImageLoad}
+            onLoadStart={() => setLoading(true)}
+            onError={() => setLoading(false)}
           />
         </Animated.View>
       </TouchableOpacity>
@@ -61,21 +58,17 @@ const Avatar = () => {
 // Styles for the Avatar component
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center', // Center content horizontally
-    marginVertical: 20,   // Vertical margin for spacing
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  avatarContainer: {
+    borderRadius: 75, // Ensure this matches half the width/height for circular shape
+    overflow: 'hidden', // This is crucial for clipping the image to the border radius
   },
   avatar: {
-    width: 150,           // Width of the avatar
-    height: 150,          // Height of the avatar
-    borderRadius: 75,     // Circular shape
-    shadowColor: '#000',  // Shadow color
-    shadowOffset: {
-      width: 0,           // No horizontal shadow
-      height: 3,          // Vertical shadow
-    },
-    shadowOpacity: 0.3,   // Opacity of the shadow
-    shadowRadius: 6,      // Blur radius of the shadow
-    elevation: 5,         // Elevation for Android shadow
+    width: 150,
+    height: 150,
+    // No need to set borderRadius here since it's done in the container
   },
   loader: {
     position: 'absolute',
@@ -85,8 +78,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background for loader
-    borderRadius: 75, // Match the avatar shape
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 75, 
   },
 });
 

@@ -187,10 +187,10 @@ const styles = StyleSheet.create({
   firstName: {
     fontSize: 22, // Font size for the first name
     fontFamily: 'Poppins-Regular', // Regular font for first name
-    marginBottom: -10, // Minor adjustment for spacing
+    marginBottom: -5, // Minor adjustment for spacing
   },
   surname: {
-    fontSize: 36, // Font size for the surname
+    fontSize: 30, // Font size for the surname
     fontFamily: 'Poppins-Bold', // Bold font for surname
   },
   joinDate: {
